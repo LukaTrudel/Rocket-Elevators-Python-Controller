@@ -59,36 +59,33 @@ class Column:
             idleElevatorList = []
             sameDirectionElevatorList = []
             for x in (self.elevatorsList):
-                if x.status != ElevatorStatus.IDLE: #verify if elevator is active and if the request is on the elevator way
+                if x.status != ElevatorStatus.IDLE: 
                     if x.status == ElevatorStatus.UP and x.floor <= currentFloor or x.status == ElevatorStatus.DOWN and x.floor >= currentFloor:
                         activeElevatorList.append(x)
                 else:
                     idleElevatorList.append(x)
             
-            if len(activeElevatorList) > 0: #Create new list for elevators with same direction that the request
+            if len(activeElevatorList) > 0: 
                 sameDirectionElevatorList = [elevator for elevator in activeElevatorList if elevator.status == direction]
             
             if len(sameDirectionElevatorList) > 0:
                 bestElevator = self.findNearestElevator(currentFloor, sameDirectionElevatorList)
             else:
                 bestElevator = self.findNearestElevator(currentFloor, idleElevatorList)
-                
+    
             return bestElevator
 
                 
         def findNearestElevator(self, currentFloor, selectedList):
             bestElevator = selectedList[0]
-            bestDistance = abs(selectedList[0].floor - currentFloor) #abs() returns the absolute value of a number (always positive).
+            bestDistance = abs(selectedList[0].floor - currentFloor) 
         
             for elevator in selectedList:
                 if abs(elevator.floor - currentFloor) < bestDistance:
                     bestElevator = elevator
             
-            print()
             print("ELEVATOR " + str(bestElevator.id) + " WAS CALLED")            
             return bestElevator
-
-
 
 
 class Elevator:
@@ -104,7 +101,6 @@ class Elevator:
 
         self.createFloorRequestButtons(_amountOfFloors)
 
-        
         
         def createFloorRequestButtons(self, _amountOfFloors):
             buttonFloor = 1
@@ -145,7 +141,7 @@ class Elevator:
                 self.status = ElevatorStatus.IDLE
                 self.floorRequestList.pop(0)
             
-            self.status = ElevatorStatus.IDLE
+                self.status = ElevatorStatus.IDLE
 
         def sortFloorList():
             if self.direction(ElevatorStatus.UP):
