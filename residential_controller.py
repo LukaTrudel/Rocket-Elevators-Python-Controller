@@ -57,7 +57,7 @@ class Column:
     def createElevators(self, _amountOfFloors, _amountOfElevators):
         print("hello")
         for x in range(_amountOfElevators):
-            elevator = Elevator(x + 1, ElevatorStatus.IDLE, _amountOfFloors, 1) #'//id, status, amountOfFloors, currentFloor
+            elevator = Elevator(x + 1, ElevatorStatus.IDLE, _amountOfFloors, 1, SensorStatus.OFF, SensorStatus.OFF) #'//id, status, amountOfFloors, currentFloor
             self.elevatorsList.append(elevator)
             #self.elevatorID += 1
             print("elevator " + str(self.elevatorsList[x].id) + " has been created")
@@ -116,73 +116,78 @@ class Column:
             
 
 class Elevator:
-    def __init__(self, _id, _status, _amountOfFloors, _currentFloor):
+    def __init__(self, _id, _status, _amountOfFloors, _currentFloor, _weightSensorStatus, _obstructionSensorStatus):
         self.id = _id
         self.status = _status
         self.amountOfFloors = _amountOfFloors
         self.currentFloor = _currentFloor
         self.direction = None
+        self.weightSensor = _weightSensorStatus
+        self.obstructionSensor = _obstructionSensorStatus
         self.door = Door(_id, DoorStatus.CLOSED)
         self.floorRequestsButtonsList = [] 
         self.floorRequestList = []
 
-#         self.createFloorRequestButtons(_amountOfFloors)
+        self.createFloorRequestButtons(_amountOfFloors)
 
         
-#         def createFloorRequestButtons(self, _amountOfFloors):
-#             buttonFloor = 1
-#             for buttonFloor in (_amountOfFloors):
-#                 floorRequestButton = FloorRequestButton(floorRequestButtonID, ButtonStatus.OFF, buttonFloor) #'//id, status, floor
-#                 self.floorRequestsButtonsList.append(floorRequestButton)
-#                 buttonFloor += 1
-#                 self.floorRequestButtonID += 1
+    def createFloorRequestButtons(self, _amountOfFloors):
+        #buttonFloor = 1
+        for x in range(_amountOfFloors):
+            floorRequestButton = FloorRequestButton(x + 1, ButtonStatus.OFF, x + 1) #'//id, status, floor
+            self.floorRequestsButtonsList.append(floorRequestButton)
+            #buttonFloor += 1
+            #self.floorRequestButtonID += 1
         
 
-#         def requestFloor(self, floor):
-#             self.floorRequestList.append(floor)
-#             self.move()
-#             self.operateDoors()
+    def requestFloor(self, floor):
+        self.floorRequestList.append(floor)
+        self.move()
+        self.operateDoors()
 
-#         def move(self, _requestedFloor): 
-#             while len(self.floorRequestList) != 0:
-#                 _requestedFloor =  self.floorRequestList[0]
-#                 self.status = ElevatorStatus.MOVING
-
-#                 if self.currentFloor < _requestedFloor:
-#                     self.status = ElevatorStatus.UP
-#                     self.sortFloorList()
-                
-#                 while self.currentFloor < _requestedFloor:
-#                     self.currentFloor += 1
-#                     self.screenDisplay = self.currentFloor
-               
-#                 if self.currentFloor > _requestedFloor:
-#                     self.status = ElevatorStatus.DOWN
-#                     self.sortFloorList()
-
-#                 while self.currentFloor > _requestedFloor:
-#                     self.currentFloor -= 1
-#                     self.screenDisplay = self.currentFloor
-                    
-                
-#                 self.status = ElevatorStatus.IDLE
-#                 self.floorRequestList.pop(0)
+    def move(self): 
+        print("movefunction")
+        while len(self.floorRequestList) != 0:
+            _requestedFloor =  self.floorRequestList[0]
+            self.status = ElevatorStatus.MOVING
+            print('end of the move function')
+            if self.currentFloor < _requestedFloor:
+                self.status = ElevatorStatus.UP
+                self.sortFloorList()
+                print('end of the move function')
+            while self.currentFloor < _requestedFloor:
+                self.currentFloor += 1
+                self.screenDisplay = self.currentFloor
             
-#                 self.status = ElevatorStatus.IDLE
+            if self.currentFloor > _requestedFloor:
+                self.status = ElevatorStatus.DOWN
+                self.sortFloorList()
+                print('end of the move function')
+            while self.currentFloor > _requestedFloor:
+                self.currentFloor -= 1
+                self.screenDisplay = self.currentFloor
+                
+            
+            self.status = ElevatorStatus.IDLE
+            self.floorRequestList.pop(0)
+        
+            self.status = ElevatorStatus.IDLE
+            print('end of the move function')
+            
 
-#         def sortFloorList():
-#             if self.direction(ElevatorStatus.UP):
-#                 self.floorRequestList.sort()
-#             else:
-#                 self.floorRequestList.sort(reverse=True)
+    def sortFloorList(self):
+        if self.direction(ElevatorStatus.UP):
+            self.floorRequestList.sort()
+        else:
+            self.floorRequestList.sort(reverse=True)
 
-#         def operateDoors(self, waiTime):
-#             self.door = DoorStatus.OPENED
-#             time.sleep(waitTime)
-#             if self.weightSensor == SensorStatus.OFF and self.obstructionSensor == SensorStatus.OFF:
-#                 self.door = DoorStatus.CLOSED
-#             else:
-#                 self.operateDoors()
+    def operateDoors(self):
+        self.door = DoorStatus.OPENED
+        #time.sleep(waiTime)
+        if self.weightSensor == SensorStatus.OFF and self.obstructionSensor == SensorStatus.OFF:
+            self.door = DoorStatus.CLOSED
+        else:
+            self.operateDoors()
            
 
 class CallButton:
@@ -194,8 +199,9 @@ class CallButton:
 
 
 class FloorRequestButton:
-    def __init__(self, _id, _floor):
+    def __init__(self, _id, _status, _floor):
         self.id = _id
+        self.status = _status
         self.foor = _floor
 
 
@@ -205,7 +211,7 @@ class Door:
         self.status = _status
 
 
-''' COLUMN STATUS '''
+
 class ColumnStatus(Enum):
     ACTIVE = 'active'
     INACTIVE = 'inactive'
@@ -242,3 +248,6 @@ t = Column(1, ColumnStatus.ACTIVE, 10, 2)
 print(t.display())
 
 print(t.findElevator(1, 1))
+
+elevtesting = Elevator(1,ElevatorStatus.MOVING, 10, 4, SensorStatus.OFF, SensorStatus.OFF)
+print(elevtesting.move())
