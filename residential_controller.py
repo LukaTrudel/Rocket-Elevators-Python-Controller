@@ -63,13 +63,20 @@ class Column:
             print("elevator " + str(self.elevatorsList[x].id) + " has been created")
         
 
-    # '//Simulate when a user press a button outside the elevator
-    # def requestElevator(self, floor, direction):
-    #     elevator = self.findElevator(floor, direction) 
-    #     elevator.addFloorToFloorList(floor) 
-    #     elevator.move()
-    #     elevator.operateDoors()
-    #     return elevator
+    #'//Simulate when a user press a button outside the elevator
+    def requestElevator(self, floor, direction):
+        for x in (self.elevatorsList):
+            print("Elevator" + str(x.id) + " | " + "Floor: " + str(x.currentFloor) + " | " + "Status: " + str(x.status.value))
+        elevator = self.findElevator(floor, direction) 
+        self.callButtonsList.append(floor)
+        print("requestElevatortest")
+        elevator.move()
+        elevator.operateDoors()
+
+        print("ARE WE MAKING IT PAST THE FUNCTION CALLS")
+        
+        return elevator
+        
        
     print("trying")
     
@@ -246,7 +253,7 @@ class SensorStatus(Enum):
 
 t = Column(1, ColumnStatus.ACTIVE, 10, 2)
 print(t.display())
-
+print(t.requestElevator(1, ButtonDirection.UP))
 print(t.findElevator(1, 1))
 
 elevtesting = Elevator(1,ElevatorStatus.MOVING, 10, 4, SensorStatus.OFF, SensorStatus.OFF)
