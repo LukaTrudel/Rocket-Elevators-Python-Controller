@@ -8,6 +8,9 @@ floorRequestButtonID = 1
 callButtonID = 1
 waitTime = 5
 
+
+
+
 print("testing")
 print("testing")
 
@@ -22,7 +25,9 @@ class Column:
 
         self.createElevators(_amountOfFloors, _amountOfElevators) 
         self.createCallButtons(_amountOfFloors)
-
+        
+        
+        
     def display(self):
         print("Created column " + str(self.id))
         print("Number of floors: " + str(self.amountOfFloors))
@@ -50,66 +55,76 @@ class Column:
 
 
     def createElevators(self, _amountOfFloors, _amountOfElevators):
-        pass 
-    #     for elevator in range(self._amountOfElevators):
-    #         elevator = Elevator(elevatorID, ElevatorStatus.IDLE, _amountOfFloors, 1) #'//id, status, amountOfFloors, currentFloor
-    #         self.elevatorsList.append(elevator)
-    #         self.elevatorID += 1
+        print("hello")
+        for x in range(_amountOfElevators):
+            elevator = Elevator(x + 1, ElevatorStatus.IDLE, _amountOfFloors, 1) #'//id, status, amountOfFloors, currentFloor
+            self.elevatorsList.append(elevator)
+            #self.elevatorID += 1
+            print("elevator " + str(self.elevatorsList[x].id) + " has been created")
         
 
-#        # '//Simulate when a user press a button outside the elevator
-#         def requestElevator(self, floor, direction):
-#             elevator = self.findElevator(floor, direction) 
-#             elevator.addFloorToFloorList(floor) 
-#             elevator.move()
-#             elevator.operateDoors()
-#             return elevator
+    # '//Simulate when a user press a button outside the elevator
+    # def requestElevator(self, floor, direction):
+    #     elevator = self.findElevator(floor, direction) 
+    #     elevator.addFloorToFloorList(floor) 
+    #     elevator.move()
+    #     elevator.operateDoors()
+    #     return elevator
        
-
-#         def findElevator(self, currentFloor, direction):
-#             activeElevatorList = []
-#             idleElevatorList = []
-#             sameDirectionElevatorList = []
-#             for x in (self.elevatorsList):
-#                 if x.status != ElevatorStatus.IDLE: 
-#                     if x.status == ElevatorStatus.UP and x.floor <= currentFloor or x.status == ElevatorStatus.DOWN and x.floor >= currentFloor:
-#                         activeElevatorList.append(x)
-#                 else:
-#                     idleElevatorList.append(x)
-            
-#             if len(activeElevatorList) > 0: 
-#                 sameDirectionElevatorList = [elevator for elevator in activeElevatorList if elevator.status == direction]
-            
-#             if len(sameDirectionElevatorList) > 0:
-#                 bestElevator = self.findNearestElevator(currentFloor, sameDirectionElevatorList)
-#             else:
-#                 bestElevator = self.findNearestElevator(currentFloor, idleElevatorList)
+    print("trying")
     
-#             return bestElevator
-
-                
-#         def findNearestElevator(self, currentFloor, selectedList):
-#             bestElevator = selectedList[0]
-#             bestDistance = abs(selectedList[0].floor - currentFloor) 
+    def findElevator(self, currentFloor, direction):
+        print('deez')
+        activeElevatorList = []
+        idleElevatorList = []
+        sameDirectionElevatorList = []
+        for x in (self.elevatorsList):
+            if x.status != ElevatorStatus.IDLE: 
+                if x.status == ElevatorStatus.UP and x.floor <= currentFloor or x.status == ElevatorStatus.DOWN and x.floor >= currentFloor:
+                    activeElevatorList.append(x)
+            else:
+                idleElevatorList.append(x)
         
-#             for elevator in selectedList:
-#                 if abs(elevator.floor - currentFloor) < bestDistance:
-#                     bestElevator = elevator
+        if len(activeElevatorList) > 0: 
+            sameDirectionElevatorList = [elevator for elevator in activeElevatorList if elevator.status == direction]
+        
+        if len(sameDirectionElevatorList) > 0:
+            bestElevator = self.findNearestElevator(currentFloor, sameDirectionElevatorList)
+        else:
+            bestElevator = self.findNearestElevator(currentFloor, idleElevatorList)
+        
+        
+        print('were having a good time')
+        return bestElevator
+        
+        
             
-#             print("ELEVATOR " + str(bestElevator.id) + " WAS CALLED")            
-#             return bestElevator
+    def findNearestElevator(self, currentFloor, selectedList):
+        bestElevator = selectedList[0]
+        bestDistance = abs(selectedList[0].floor - currentFloor) 
+    
+        for elevator in selectedList:
+            if abs(elevator.floor - currentFloor) < bestDistance:
+                bestElevator = elevator
+        
+        print()
+        print("ELEVATOR " + str(bestElevator.id) + " WAS CALLED")            
+        return bestElevator
 
+    
 
-# class Elevator:
-#     def __init__(self, _id, _status, _amountOfFloors, _currentFloor):
-#         self.id = _id
-#         self.status = _status
-#         self.amountOfFloors = _amountOfFloors
-#         self.currentFloor = _currentFloor
-#         self.direction = None
-#         self.door = Door(_id, DoorStatus.CLOSED)
-#         self.floorRequestsButtonsList = [] 
-#         self.floorRequestList = []
+            
+
+class Elevator:
+    def __init__(self, _id, _status, _amountOfFloors, _currentFloor):
+        self.id = _id
+        self.status = _status
+        self.amountOfFloors = _amountOfFloors
+        self.currentFloor = _currentFloor
+        self.direction = None
+        self.door = Door(_id, DoorStatus.CLOSED)
+        self.floorRequestsButtonsList = [] 
+        self.floorRequestList = []
 
 #         self.createFloorRequestButtons(_amountOfFloors)
 
@@ -185,8 +200,9 @@ class FloorRequestButton:
 
 
 class Door:
-    def __init__(self, _id):
+    def __init__(self, _id, _status):
         self.id = _id
+        self.status = _status
 
 
 ''' COLUMN STATUS '''
