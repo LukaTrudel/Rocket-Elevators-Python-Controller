@@ -101,10 +101,10 @@ class Column:
             
     def findNearestElevator(self, currentFloor, selectedList):
         bestElevator = selectedList[0]
-        bestDistance = abs(selectedList[0].floor - currentFloor) 
+        bestDistance = abs(selectedList[0].currentFloor - currentFloor) 
     
         for elevator in selectedList:
-            if abs(elevator.floor - currentFloor) < bestDistance:
+            if abs(elevator.currentFloor - currentFloor) < bestDistance:
                 bestElevator = elevator
         
         print()
@@ -240,3 +240,5 @@ class SensorStatus(Enum):
 
 t = Column(1, ColumnStatus.ACTIVE, 10, 2)
 print(t.display())
+
+print(t.findElevator(1, 1))
