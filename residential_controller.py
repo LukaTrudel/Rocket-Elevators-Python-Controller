@@ -72,7 +72,7 @@ class Column:
         elevator.move()
         elevator.operateDoors()
 
-        print("ARE WE MAKING IT PAST THE FUNCTION CALLS")
+        #print("ARE WE MAKING IT PAST THE FUNCTION CALLS")
         
         return elevator
         
@@ -80,7 +80,7 @@ class Column:
     print("trying")
     
     def findElevator(self, currentFloor, direction):
-        print('deez')
+        #print('deez')
         activeElevatorList = []
         idleElevatorList = []
         sameDirectionElevatorList = []
@@ -100,7 +100,7 @@ class Column:
             bestElevator = self.findNearestElevator(currentFloor, idleElevatorList)
         
         
-        print('were having a good time')
+        #print('were having a good time')
         return bestElevator
         
         
@@ -152,10 +152,10 @@ class Elevator:
         self.operateDoors()
 
     def move(self): 
-        print("movefunction")
+        #print("movefunction")
 
         while len(self.floorRequestList) != 0:
-            print('end of the move function')
+            #print('end of the move function')
             destination =  self.floorRequestList[0]
             self.status = ElevatorStatus.MOVING
             if self.currentFloor < destination:
@@ -181,14 +181,14 @@ class Elevator:
             
 
     def sortFloorList(self):
-        print('sort floor list')
+        #print('sort floor list')
         if self.direction == ElevatorStatus.UP:
             self.floorRequestList.sort()
         else:
             self.floorRequestList.sort(reverse=True)
 
     def operateDoors(self):
-        print("operate Doors")
+        #print("operate Doors")
         self.door = DoorStatus.OPENED
         #time.sleep(waiTime)
         if self.weightSensor == SensorStatus.OFF and self.obstructionSensor == SensorStatus.OFF:
@@ -252,13 +252,13 @@ class SensorStatus(Enum):
 
 
 
-t = Column(1, ColumnStatus.ACTIVE, 10, 2)
-print(t.display())
-print(t.requestElevator(1, ButtonDirection.UP))
-print(t.findElevator(1, 1))
+# t = Column(1, ColumnStatus.ACTIVE, 10, 2)
+# print(t.display())
+# print(t.requestElevator(1, ButtonDirection.UP))
+# print(t.findElevator(1, 1))
 
-elevtesting = Elevator(1,ElevatorStatus.UP, 2, 4, SensorStatus.OFF, SensorStatus.OFF)
-print(elevtesting.move())
+# elevtesting = Elevator(1,ElevatorStatus.UP, 2, 4, SensorStatus.OFF, SensorStatus.OFF)
+# print(elevtesting.move())
 
 def scenario1():
     print()
