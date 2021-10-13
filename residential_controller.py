@@ -71,14 +71,14 @@ class Column:
     #     return elevator
 
     def requestElevator(self, _floor, _direction):
-        print("||-PASSENGER REQUESTS PICKUP AT FLOOR " +
-                str(_floor) + " TO GO " + str(_direction) + "-||")
+        print("-CLIENT CALLS THE ELEVATOR AT FLOOR " +
+                str(_floor) + " TO GO " + str(_direction) + "-")
         elevator = self.findElevator(_floor, _direction)
         elevator.floorRequestList.append(_floor)
         elevator.sortFloorList()
         print()
-        print("ELEVATOR " + str(elevator.ID) + " MOVES FROM FLOOR " +
-                str(elevator.currentFloor) + " TO GO TO FLOOR " + str(_floor))
+        print("ELEVATOR " + str(elevator.ID) + " MOVING FROM FLOOR " +
+                str(elevator.currentFloor) + " TO FLOOR " + str(_floor))
         elevator.move()
         return elevator
 
@@ -134,27 +134,22 @@ class Column:
         }
 
         for elevator in self.elevatorList:
-            # The elevator is at my floor and going in the direction I want
             if requestedFloor == elevator.currentFloor and elevator.status == ElevatorStatus.STOPPED and requestedDirection == elevator.direction:
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     1, elevator, bestElevatorInformations, requestedFloor)
 
-            # The elevator is lower than me, is coming up and I want to go up
             elif requestedFloor > elevator.currentFloor and elevator.direction == ElevatorStatus.UP and requestedDirection == elevator.direction:
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     2, elevator, bestElevatorInformations, requestedFloor)
 
-            # The elevator is higher than me, is coming down and I want to go down
             elif requestedFloor < elevator.currentFloor and elevator.direction == ElevatorStatus.DOWN and requestedDirection == elevator.direction:
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     2, elevator, bestElevatorInformations, requestedFloor)
 
-            # The elevator is idle
             elif elevator.status == 'idle':
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     3, elevator, bestElevatorInformations, requestedFloor)
 
-            # The elevator is not available, but still could take the call nothing else better is found
             else:
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     4, elevator, bestElevatorInformations, requestedFloor)
@@ -163,7 +158,7 @@ class Column:
             #bestScore = bestElevatorInformations["bestScore"]
             #referenceGap = bestElevatorInformations["referenceGap"]
         print()
-        print(">>[ELEVATOR TO BE SENT]:")
+        print(">>[ELEVATOR SENT]:")
         print(bestElevatorInformations["bestElevator"])
         return bestElevatorInformations["bestElevator"]
 
