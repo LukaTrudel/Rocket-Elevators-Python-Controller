@@ -80,6 +80,7 @@ class Column:
         print("ELEVATOR " + str(elevator.ID) + " MOVING FROM FLOOR " +
                 str(elevator.currentFloor) + " TO FLOOR " + str(_floor))
         elevator.move()
+        elevator.operateDoors()
         return elevator
 
 
@@ -185,8 +186,8 @@ class Elevator:
         self.amountOfFloors = _amountOfFloors
         self.currentFloor = 1
         self.direction = None
-        #self.weightSensor = None
-        #self.obstructionSensor = None
+        self.overweight = None
+        self.obstruction = None
         self.door = Door(_id)
         self.floorRequestButtonList = [] 
         self.floorRequestList = []
@@ -268,14 +269,25 @@ class Elevator:
         else:
             self.floorRequestList.sort(reverse=True)
 
-    # def operateDoors(self):
-    #     #print("operate Doors")
-    #     self.door = DoorStatus.OPENED
-    #     #time.sleep(waiTime)
-    #     if self.weightSensor == SensorStatus.OFF and self.obstructionSensor == SensorStatus.OFF:
-    #         self.door = DoorStatus.CLOSED
-    #     else:
-    #         self.operateDoors()
+    def operateDoors(self):
+        #print("operate Doors")
+        self.doorStatus = 'opened'
+        #WAIT 5 SECONDS
+        if not self.overweight:
+            self.door.status = 'closing'
+
+            if not self.door.obstruction:
+                self.door.status = 'closed'
+
+            else:
+                self.door.obstruction = False
+                self.operateDoors()
+        else:
+            while self.overweight:
+                self.overweight = False
+                self.operateDoors()
+
+    
            
 
 class CallButton:
@@ -297,6 +309,7 @@ class Door:
     def __init__(self, _id):
         self.ID = _id
         self.status = DoorStatus.OPENED
+        self.obstruction = None
 
 
 
