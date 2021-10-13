@@ -1,11 +1,24 @@
-    def findNearestElevator(self, currentFloor, selectedList):
-        bestElevator = selectedList[0]
-        bestDistance = abs(selectedList[0].floor - currentFloor) 
+def scenario2(): 
+#     print()
+#     print("****************************** SCENARIO 2: ******************************")
+#     columnScenario2 = Column(1, ColumnStatus.ACTIVE, 10, 2)
+#     columnScenario2.display()  
+#     columnScenario2.elevatorsList[0].floor = 10
+#     columnScenario2.elevatorsList[1].floor = 3
     
-        for elevator in selectedList:
-            if abs(elevator.floor - currentFloor) < bestDistance:
-                bestElevator = elevator
-        
-        print()
-        print("ELEVATOR " + str(bestElevator.id) + " WAS CALLED")            
-        return bestElevator
+#     print()
+#     print("Person 1: (elevator 2 is expected)")
+#     columnScenario2.requestElevator(1, ButtonDirection.UP)
+#     columnScenario2.elevatorsList[1].requestFloor(6, columnScenario2)
+#     print("----------------------------------")
+#     print()
+#     print("Person 2: (elevator 2 is expected)")
+#     columnScenario2.requestElevator(3, ButtonDirection.UP)
+#     columnScenario2.elevatorsList[1].requestFloor(5, columnScenario2)
+#     print("----------------------------------")
+#     print()
+#     print("Person 3: (elevator 1 is expected)")
+#     columnScenario2.requestElevator(9, ButtonDirection.DOWN)
+#     columnScenario2.elevatorsList[0].requestFloor(2, columnScenario2)
+#     print("==================================")
+# scenario2()
