@@ -57,7 +57,9 @@ class Column:
         elevator.operateDoors()
         return elevator
 
-
+    #score system
+    #first elevator is always default bestElevator before being compared
+    #if 2 elevators get the same score, the closest one is chosen
     def findElevator(self, requestedFloor, requestedDirection):
         bestElevatorInformations = {
             "bestElevator": None,
@@ -155,9 +157,9 @@ class Elevator:
 
     def sortFloorList(self):
         if self.direction == 'up':
-            sorted(self.floorRequestList)
+            sorted(self.floorRequestList) #ascending
         else:
-            sorted(self.floorRequestList, reverse=True)
+            sorted(self.floorRequestList, reverse=True) #descending
           
 
     def operateDoors(self):
