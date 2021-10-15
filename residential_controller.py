@@ -31,8 +31,6 @@ class Column:
                 callButton = CallButton(x + 1, x + 1, 'down') #'//id, status, floor, direction
                 self.callButtonList.append(callButton) 
                 
-            
-            #buttonFloor += 1
             #print("call button " + str(self.callButtonList[x].ID) + " has been created")
 
 
@@ -68,32 +66,27 @@ class Column:
         }
 
         for elevator in self.elevatorList:
+            #elevator is at the same floor and going in the direction that I want
             if requestedFloor == elevator.currentFloor and elevator.status == 'stopped' and requestedDirection == elevator.direction:
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     1, elevator, bestElevatorInformations, requestedFloor)
-
+            #lower than me and going up      
             elif requestedFloor > elevator.currentFloor and elevator.direction == 'up' and requestedDirection == elevator.direction:
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     2, elevator, bestElevatorInformations, requestedFloor)
-
+            #higher than me and going down
             elif requestedFloor < elevator.currentFloor and elevator.direction == 'down' and requestedDirection == elevator.direction:
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     2, elevator, bestElevatorInformations, requestedFloor)
-
+            #idle
             elif elevator.status == 'idle':
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     3, elevator, bestElevatorInformations, requestedFloor)
-
+            #busy elevator but will come if theres no other elevator found
             else:
                 bestElevatorInformations = self.checkIfElevatorIsBetter(
                     4, elevator, bestElevatorInformations, requestedFloor)
 
-            #bestElevator = bestElevatorInformations["bestElevator"]
-            #bestScore = bestElevatorInformations["bestScore"]
-            #referenceGap = bestElevatorInformations["referenceGap"]
-        print()
-        print(">>[ELEVATOR SENT]:")
-        print(bestElevatorInformations["bestElevator"])
         return bestElevatorInformations["bestElevator"]
 
     def checkIfElevatorIsBetter(self, scoreToCheck, newElevator, bestElevatorInformations, floor):
@@ -129,26 +122,18 @@ class Elevator:
 
         
     def createFloorRequestButtons(self, _amountOfFloors):
-        #buttonFloor = 1
         for x in range(_amountOfFloors):
             floorRequestButton = FloorRequestButton(x + 1, x + 1) #'//id, status, floor
             self.floorRequestButtonList.append(floorRequestButton)
-            #buttonFloor += 1
-            #self.floorRequestButtonID += 1
+            
 
+    #'//Simulate when a user press a button inside the elevator
     def requestFloor(self, _floor):
-        print()
-        print("||-PASSENGER NOW INSIDE ELEVATOR REQUESTS TO GO TO FLOOR " +
-              str(_floor) + "-||")
         self.floorRequestList.append(_floor)
         self.sortFloorList()
-        print()
-        print("ELEVATOR " + str(self.ID) + " MOVES FROM FLOOR " +
-              str(self.currentFloor) + " TO GO TO FLOOR " + str(_floor))
         self.move()
 
     def move(self): 
-        #print("movefunction")
         while len(self.floorRequestList) != 0:
             destination = self.floorRequestList[0]
             self.status = 'moving'
@@ -176,7 +161,6 @@ class Elevator:
           
 
     def operateDoors(self):
-        #print("operate Doors")
         self.doorStatus = 'opened'
         #WAIT 5 SECONDS
         if not self.overweight:
@@ -222,13 +206,6 @@ class ColumnStatus(Enum):
     OFFLINE = 'offline'
 
 
-# class ElevatorStatus(Enum):
-#     IDLE = 'idle'
-#     UP = 'up'
-#     DOWN = 'down'
-#     MOVING = 'moving'
-#     STOPPED = 'stopped'
-
 class ButtonStatus(Enum):
     ON = 'on'
     OFF = 'off'
@@ -247,7 +224,7 @@ class SensorStatus(Enum):
     ON = 'on'
     OFF = 'off'
 
-
+#SCENARIOS FOR YOU TO TRY IT OUT!!!(REMOVE THE "#" AT LINES 326, 327, 328)
 
 def scenario1():
     print()
@@ -348,6 +325,6 @@ def scenario3():
 
 # scenario1()
 # scenario2()
-# scenario3()
+scenario3()
 
 
